@@ -123,4 +123,23 @@ for P in truth_values:
     for Q in truth_values:
         result = xor(P, Q)
         print(f"{P}\t{Q}\t{result}")
-           
+ #Chapter2/pb1          
+# Assign values to the variables
+x = 2
+y = 3
+
+# Print the values of x and y before clearing x
+print(f"x before clearing: {x}")
+print(f"y before clearing: {y}")
+
+# Clear (delete) the variable x
+del x
+
+# Attempt to print x after deleting it to confirm it's cleared
+try:
+    print(f"x after clearing: {x}")
+except NameError:
+    print("x has been cleared and is no longer defined.")
+
+# Print the value of y to show it is still defined
+print(f"y after clearing x: {y}")
