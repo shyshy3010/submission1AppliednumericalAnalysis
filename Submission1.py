@@ -223,3 +223,60 @@ list_a.sort()
 # Print the sorted list_a
 print("Sorted list_a:", list_a)
 #chapter2/pb17
+import numpy as np
+
+# Generate an array with size 100 evenly spaced between -10 to 10
+array = np.linspace(-10, 10, 100)
+
+# Print the array
+print("Array with size 100 evenly spaced between -10 to 10:")
+print(array)
+#chapter2/pb18
+import numpy as np
+
+# Define array_a
+array_a = np.array([-1, 0, 1, 2, 0, 3])
+
+# Use logical expression as index to get elements larger than zero
+filtered_array = array_a[array_a > 0]
+
+# Print the filtered array
+print("Filtered array with elements larger than zero:")
+print(filtered_array)
+#chapter2/pb19
+import numpy as np
+
+# Create the array y
+y = np.array([[3, 5, 3], [2, 2, 5], [3, 8, 9]])
+
+# Calculate the transpose of y
+y_transpose = np.transpose(y)
+
+# Print the original array y and its transpose
+print("Original array y:")
+print(y)
+print("\nTranspose of array y:")
+print(y_transpose)
+#chapter2/pb20
+import numpy as np
+
+# Create a zero array with size (2, 4)
+zero_array = np.zeros((2, 4))
+
+# Print the zero array
+print("Zero array with size (2, 4):")
+print(zero_array)
+#chapter2/pb21
+import numpy as np
+
+# Create a zero array with size (2, 4)
+zero_array = np.zeros((2, 4))
+
+# Change the 2nd column (index 1) to 1
+zero_array[:, 1] = 1
+
+# Print the modified array
+print("Modified array with the 2nd column changed to 1:")
+print(zero_array)
+#chapter2/pb22
+
