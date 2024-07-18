@@ -308,3 +308,103 @@ def bounding_array(A, top, bottom):
 
 # Test case
 print(bounding_array(np.arange(-5, 6, 1), 3, -3))
+#chapter9/pb1
+def my_bin_2_dec(b):
+    """
+    Convert a binary number represented by a list of ones and zeros to decimal.
+    The last element of b represents the coefficient of 2^0, the second-to-last
+    element represents the coefficient of 2^1, and so on.
+
+    Parameters:
+    b (list): Binary number represented as a list of integers (0s and 1s).
+
+    Returns:
+    int: Decimal representation of the binary number.
+    """
+    d = 0
+    for i in range(len(b)):
+        d += b[i] * (2 ** i)
+    return d
+
+# Test cases
+print(my_bin_2_dec([1, 1, 1]))       # Output: 7
+print(my_bin_2_dec([1, 0, 1, 0, 1, 0, 1]))   # Output: 85
+print(my_bin_2_dec([1]*25))         # Output: 33554431
+#chapter9/pb2
+def my_dec_2_bin(d):
+    """
+    Convert a positive integer in decimal to binary represented as a list of ones and zeros.
+    The leading term must be a 1 unless the decimal input value is 0.
+
+    Parameters:
+    d (int): Positive integer in decimal.
+
+    Returns:
+    list: Binary representation of d as a list of integers (0s and 1s).
+    """
+    if d == 0:
+        return [0]
+    
+    b = []
+    while d > 0:
+        b.append(d % 2)
+        d //= 2
+    
+    b.reverse()
+    return b
+
+# Test cases
+print(my_dec_2_bin(0))      # Output: [0]
+print(my_dec_2_bin(23))     # Output: [1, 0, 1, 1, 1]
+print(my_dec_2_bin(2097))   # Output: [1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1]
+#chapter9/pb3
+# Compute d = my_bin_2_dec(my_dec_2_bin(12654))
+d = 12654
+binary_representation = my_dec_2_bin(d)
+computed_d = my_bin_2_dec(binary_representation)
+
+print(f"Original d: {d}")
+print(f"Computed d: {computed_d}")
+print(f"Are they equal? {'Yes' if d == computed_d else 'No'}")
+#chapter9/pb4
+def my_bin_adder(b1, b2):
+    """
+    Add two binary numbers represented as lists of ones and zeros.
+
+    Parameters:
+    b1 (list): First binary number represented as a list of integers (0s and 1s).
+    b2 (list): Second binary number represented as a list of integers (0s and 1s).
+
+    Returns:
+    list: Binary sum of b1 and b2 represented as a list of integers (0s and 1s).
+    """
+    # Make copies of the input lists to avoid modifying them directly
+    b1_copy = b1[:]
+    b2_copy = b2[:]
+    
+    # Pad the shorter list with zeros to make them equal length
+    max_len = max(len(b1_copy), len(b2_copy))
+    b1_copy = [0] * (max_len - len(b1_copy)) + b1_copy
+    b2_copy = [0] * (max_len - len(b2_copy)) + b2_copy
+    
+    # Initialize the result list
+    result = [0] * (max_len + 1)
+    
+    carry = 0
+    for i in range(max_len - 1, -1, -1):
+        temp_sum = b1_copy[i] + b2_copy[i] + carry
+        result[i + 1] = temp_sum % 2
+        carry = temp_sum // 2
+    
+    result[0] = carry
+    
+    # Remove leading zeros if any
+    while result[0] == 0 and len(result) > 1:
+        result = result[1:]
+    
+    return result
+
+# Test cases
+print(my_bin_adder([1, 1, 1, 1, 1], [1]))              # Output: [1, 0, 0, 0, 0, 0]
+print(my_bin_adder([1, 1, 1, 1, 1], [1, 0, 1, 0, 1, 0, 0]))   # Output: [1, 1, 1, 0, 0, 1, 1]
+print(my_bin_adder([1, 1, 0], [1, 0, 1]))              # Output: [1, 0, 1, 1]
