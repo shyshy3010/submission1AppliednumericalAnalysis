@@ -62,4 +62,19 @@ print(f"Python's stored value for pi: {true_pi:.15f}")
 # Print the differences
 print(f"Difference for N=0: {abs(approx_pi_N0 - true_pi):.15f}")
 print(f"Difference for N=1: {abs(approx_pi_N1 - true_pi):.15f}")
+#Chapter1/Pb13
+import math
 
+# List of values for x
+x_values = [math.pi, math.pi/2, math.pi/4, math.pi/6]
+
+# Verify the identity sin^2(x) + cos^2(x) = 1
+for x in x_values:
+    sin_squared = math.sin(x) ** 2
+    cos_squared = math.cos(x) ** 2
+    result = sin_squared + cos_squared
+    print(f"sin^2({x}) + cos^2({x}) = {result:.15f}")
+
+# Additionally, compare results to 1
+    is_identity_holds = math.isclose(result, 1, rel_tol=1e-15)
+    print(f"Does sin^2({x}) + cos^2({x}) = 1? {is_identity_holds}")
