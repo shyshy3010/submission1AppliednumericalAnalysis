@@ -111,3 +111,16 @@ for P in truth_values:
         result = evaluate_expression(P, Q)
         if not result:
             print(f"P = {P}, Q = {Q}")
+#Chapter1/Pb22
+def xor(P, Q):
+    return (P and not Q) or (not P and Q)
+
+# Test all possible combinations of P and Q
+truth_values = [True, False]
+
+print("P\tQ\tP XOR Q")
+for P in truth_values:
+    for Q in truth_values:
+        result = xor(P, Q)
+        print(f"{P}\t{Q}\t{result}")
+           
