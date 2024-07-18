@@ -78,3 +78,16 @@ for x in x_values:
 # Additionally, compare results to 1
     is_identity_holds = math.isclose(result, 1, rel_tol=1e-15)
     print(f"Does sin^2({x}) + cos^2({x}) = 1? {is_identity_holds}")
+#Chapter1/Pb14
+import math
+
+# Convert degrees to radians
+angle_degrees = 87
+angle_radians = math.radians(angle_degrees)
+
+# Compute the sine of the angle
+sin_value = math.sin(angle_radians)
+
+# Print the result
+print(f"sin(87°) = {sin_value:.15f}")
+   
