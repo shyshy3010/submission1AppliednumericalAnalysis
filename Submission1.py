@@ -90,4 +90,24 @@ sin_value = math.sin(angle_radians)
 
 # Print the result
 print(f"sin(87°) = {sin_value:.15f}")
-   
+#Chapter1/Pb19
+def evaluate_expression(P, Q):
+    result = (P and Q) or (P and not Q)
+    return result
+
+# Test all possible combinations of P and Q
+truth_values = [True, False]
+
+print("P\tQ\tResult")
+for P in truth_values:
+    for Q in truth_values:
+        result = evaluate_expression(P, Q)
+        print(f"{P}\t{Q}\t{result}")
+
+# Determine the conditions under which the expression is false
+print("\nConditions under which the expression is false:")
+for P in truth_values:
+    for Q in truth_values:
+        result = evaluate_expression(P, Q)
+        if not result:
+            print(f"P = {P}, Q = {Q}")
