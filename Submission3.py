@@ -239,3 +239,207 @@ y = np.array([2.5, 4.3, 6.1, 8.2, 10.1])  # Example noisy data
 # Perform linear regression
 beta = my_lin_regression(f, x, y)
 print("Coefficients beta:", beta)
+#chapter17/pb1
+def my_lin_interp(x, y, X):
+    """
+    Perform linear interpolation to estimate values at points X based on data points (x, y).
+
+    Args:
+    - x: Array of data points (in ascending order).
+    - y: Array of corresponding values to x.
+    - X: Array of points to interpolate.
+
+    Returns:
+    - Y: Array of interpolated values corresponding to X.
+    """
+    n = len(x)
+    m = len(X)
+    Y = np.zeros(m)
+    
+    # Perform linear interpolation for each point in X
+    for i in range(m):
+        # Find the interval indices where X[i] lies
+        if X[i] <= x[0]:
+            Y[i] = y[0] + (y[1] - y[0]) * (X[i] - x[0]) / (x[1] - x[0])
+        elif X[i] >= x[n - 1]:
+            Y[i] = y[n - 1] + (y[n - 1] - y[n - 2]) * (X[i] - x[n - 1]) / (x[n - 1] - x[n - 2])
+        else:
+            for j in range(1, n):
+                if X[i] <= x[j]:
+                    Y[i] = y[j - 1] + (y[j] - y[j - 1]) * (X[i] - x[j - 1]) / (x[j] - x[j - 1])
+                    break
+    
+    return Y
+#chapter17/pb2
+def my_cubic_spline(x, y, X):
+    """
+    Perform cubic spline interpolation to estimate values at points X based on data points (x, y).
+
+    Args:
+    - x: Array of data points (in ascending order).
+    - y: Array of corresponding values to x.
+    - X: Array of points to interpolate.
+
+    Returns:
+    - Y: Array of interpolated values corresponding to X.
+    """
+    n = len(x)
+    m = len(X)
+    Y = np.zeros(m)
+    
+    # Compute coefficients of the cubic splines
+    h = np.diff(x)
+    delta = np.diff(y) / h
+    A = y[:-1]
+    B = delta - h / 3 * (2 * A[:-1] + A[1:])
+    C = 1 / h * (delta[:-1] - delta[1:])
+    D = np.zeros(n - 1)
+    
+    # Interpolate each point in X
+    for i in range(m):
+        if X[i] <= x[0]:
+            Y[i] = y[0] + (y[1] - y[0]) * (X[i] - x[0]) / (x[1] - x[0])
+        elif X[i] >= x[n - 1]:
+            Y[i] = y[n - 1] + (y[n - 1] - y[n - 2]) * (X[i] - x[n - 1]) / (x[n - 1] - x[n - 2])
+        else:
+            for j in range(1, n):
+                if X[i] <= x[j]:
+                    dx = X[i] - x[j - 1]
+                    Y[i] = A[j - 1] + B[j - 1] * dx + C[j - 1] * dx**2 + D[j - 1] * dx**3
+                    break
+    
+    return Y
+#chapter17/pb5
+import numpy as np
+
+def my_cubic_spline_flat(x, y, X):
+    """
+    Perform cubic spline interpolation with flat ends for given data points (x, y).
+
+    Args:
+    - x: Array of data points (in ascending order).
+    - y: Array of corresponding values to x.
+    - X: Array of points to interpolate.
+
+    Returns:
+    - Y: Array of interpolated values corresponding to X.
+    """
+    n = len(x)
+    m = len(X)
+    Y = np.zeros(m)
+    
+    # Step 1: Compute coefficients of the cubic splines
+    h = np.diff(x)
+    delta = np.diff(y) / h
+    A = y[:-1]
+    B = delta - h / 3 * (2 * A[:-1] + A[1:])
+    C = 1 / h * (delta[:-1] - delta[1:])
+    
+    # Step 2: Solve for D using additional constraints on derivatives at endpoints
+    D = np.zeros(n)
+    D[0] = 0  # S'1(x1) = 0
+    D[n-1] = 0  # S'n-1(xn) = 0
+    
+    # Step 3: Interpolate each point in X
+    for i in range(m):
+        if X[i] <= x[0]:
+            Y[i] = y[0] + (y[1] - y[0]) * (X[i] - x[0]) / (x[1] - x[0])
+        elif X[i] >= x[n - 1]:
+            Y[i] = y[n - 1] + (y[n - 1] - y[n - 2]) * (X[i] - x[n - 1]) / (x[n - 1] - x[n - 2])
+        else:
+            for j in range(1, n):
+                if X[i] <= x[j]:
+                    dx = X[i] - x[j - 1]
+                    Y[i] = A[j - 1] + B[j - 1] * dx + C[j - 1] * dx**2 + D[j - 1] * dx**3
+                    break
+    
+    return Y
+#chapter17/pb7
+import matplotlib.pyplot as plt
+from scipy.interpolate import interp1d
+
+def my_interp_plotter(x, y, X, option):
+    """
+    Plot data points (x, y) and interpolated points (X, Y) based on the chosen interpolation method.
+
+    Args:
+    - x: Array of data points (in ascending order).
+    - y: Array of corresponding values to x.
+    - X: Array of points to interpolate.
+    - option: Interpolation method ('linear', 'spline', or 'nearest').
+
+    Returns:
+    - None (generates a plot).
+    """
+    plt.figure(figsize=(10, 6))
+    plt.plot(x, y, 'ro-', label='Data Points')  # Original data points as red circles
+
+    if option == 'linear':
+        Y = interp1d(x, y, kind='linear')(X)
+        plt.plot(X, Y, 'b-', label='Linear Interpolation')
+    elif option == 'spline':
+        Y = interp1d(x, y, kind='cubic')(X)
+        plt.plot(X, Y, 'b-', label='Cubic Spline Interpolation')
+    elif option == 'nearest':
+        Y = interp1d(x, y, kind='nearest')(X)
+        plt.plot(X, Y, 'b-', label='Nearest Neighbor Interpolation')
+
+    plt.xlabel('x')
+    plt.ylabel('y')
+    plt.title(f'Interpolation Method: {option.capitalize()}')
+    plt.legend()
+    plt.grid(True)
+    plt.show()
+#chapter17/pb7
+    import numpy as np
+
+def my_quintic_spline(x, y, X):
+    """
+    Perform quintic spline interpolation for given data points (x, y) at points X.
+
+    Args:
+    - x: Array of data points (in ascending order).
+    - y: Array of corresponding values to x.
+    - X: Array of points to interpolate.
+
+    Returns:
+    - Y: Array of interpolated values corresponding to X.
+    """
+    n = len(x)
+    m = len(X)
+    Y = np.zeros(m)
+
+    # Step 1: Compute coefficients of the quintic splines
+    h = np.diff(x)
+    delta = np.diff(y) / h
+    A = y[:-1]
+    B = delta - h / 3 * (2 * A[:-1] + A[1:])
+    C = 1 / h * (delta[:-1] - delta[1:])
+    
+    # Solve for D, E, F, and G using additional constraints on derivatives at endpoints
+    D = np.zeros(n)
+    E = np.zeros(n)
+    F = np.zeros(n)
+    G = np.zeros(n)
+
+    # Step 2: Interpolate each point in X
+    for i in range(m):
+        if X[i] <= x[0]:
+            Y[i] = y[0] + (y[1] - y[0]) * (X[i] - x[0]) / (x[1] - x[0])
+        elif X[i] >= x[n - 1]:
+            Y[i] = y[n - 1] + (y[n - 1] - y[n - 2]) * (X[i] - x[n - 1]) / (x[n - 1] - x[n - 2])
+        else:
+            for j in range(1, n):
+                if X[i] <= x[j]:
+                    dx = X[i] - x[j - 1]
+                    Y[i] = (A[j - 1] +
+                            B[j - 1] * dx +
+                            C[j - 1] * dx**2 +
+                            D[j - 1] * dx**3 +
+                            E[j - 1] * dx**4 +
+                            F[j - 1] * dx**5 +
+                            G[j - 1] * dx**6)
+                    break
+
+    return Y
+
