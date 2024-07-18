@@ -143,3 +143,83 @@ except NameError:
 
 # Print the value of y to show it is still defined
 print(f"y after clearing x: {y}")
+#Chapter2/pb2
+# Assign string '123' to the variable S
+S = '123'
+
+# Convert the string into a float and assign it to the variable N
+N = float(S)
+
+# Verify the types of S and N using the type function
+print(f"S is of type: {type(S)}")  # Should output: <class 'str'>
+print(f"N is of type: {type(N)}")  # Should output: <class 'float'>
+#Chapter2/Pb3
+# Assign the string 'HELLO' to the variable s1
+s1 = 'HELLO'
+
+# Assign the string 'hello' to the variable s2
+s2 = 'hello'
+
+# Use the == operator to show that they are not equal
+not_equal = s1 == s2
+print(f"s1 == s2: {not_equal}")  # Should output: False
+
+# Use the == operator to show that s1 and s2 are equal if the lower method is used on s1
+equal_lower = s1.lower() == s2
+print(f"s1.lower() == s2: {equal_lower}")  # Should output: True
+
+# Use the == operator to show that s1 and s2 are equal if upper method is used on s2
+equal_upper = s1 == s2.upper()
+print(f"s1 == s2.upper(): {equal_upper}")  # Should output: True
+#Chapter2/pb4
+# Define the strings and their lengths
+word1 = "Engineering"
+length1 = len(word1)
+word2 = "Book"
+length2 = len(word2)
+
+# Generate the required strings using print statements
+print(f"The word '{word1}' has {length1} letters.")
+print(f"The word '{word2}' has {length2} letters.")
+#chapter2/pb5
+# Define the string
+sentence = 'Python is great!'
+
+# Check if 'Python' is in the string 'Python is great!'
+if 'Python' in sentence:
+    print("'Python' is present in the string 'Python is great!'")
+else:
+    print("'Python' is not present in the string 'Python is great!'")
+#chapter2/pb6
+# Define the string
+sentence = 'Python is great!'
+# Split the string into words using split()
+words = sentence.split()
+
+# Get the last word using indexing
+last_word = words[-1]
+
+# Print the last word
+print(f"The last word in the string '{sentence}' is: {last_word}")
+#chapter2/pb7
+# Assign list [1, 8, 9, 15] to a variable list_a
+list_a = [1, 8, 9, 15]
+
+# Insert 2 at index 1 using the insert method
+list_a.insert(1, 2)
+
+# Append 4 to list_a using the append method
+list_a.append(4)
+
+# Print the modified list_a
+print("Modified list_a:", list_a)
+#chapter2/pb8
+# Given list_a from the previous problem
+list_a = [1, 2, 8, 9, 15, 4]
+
+# Sort list_a in ascending order
+list_a.sort()
+
+# Print the sorted list_a
+print("Sorted list_a:", list_a)
+#chapter2/pb17
