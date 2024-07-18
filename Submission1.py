@@ -279,4 +279,21 @@ zero_array[:, 1] = 1
 print("Modified array with the 2nd column changed to 1:")
 print(zero_array)
 #chapter2/pb22
+from IPython.core.magic import register_cell_magic
+
+@register_cell_magic
+def clear_all_variables(line, cell):
+    """
+    Magic function to clear all variables in the current Jupyter notebook kernel.
+    """
+    from IPython import get_ipython
+
+    # Get the current IPython instance
+    ipython = get_ipython()
+
+    # Clear all variables
+    ipython.magic('reset -f')
+
+    # Return an optional message
+    return "All variables have been cleared."
 
